@@ -58,7 +58,7 @@ const SignIn = () => {
             </div>
             <div className="pt-[20px]">
               <h1 className="font-semibold text-[20px] text-[#095C37]">
-                Welcome To Nebula Logix
+                Welcome To Client Side
               </h1>
               <p className="text-[14px] text-center">
                 Sign in with your credentials below.
