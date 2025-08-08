@@ -28,7 +28,7 @@ const useWebsocket = ({
         console.log("Connection is open...");
         webSocket.current = ws;
         console.log({ first: ws.url.split("/").pop() });
-        // registerConnection({});
+        registerConnection({});
 
         keepAliveInterval = window.setInterval(() => {
           if (ws.readyState === WebSocket.OPEN) {

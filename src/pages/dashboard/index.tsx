@@ -3,7 +3,7 @@ import useWebsocket from "../../hooks/useWebsocket";
 import useLeaderboard from "../../hooks/useLeaderboard";
 
 const Dashboard = () => {
-  const { webSocket, webSocketFunction } = useWebsocket({
+  const { webSocketFunction } = useWebsocket({
     onMessage: (message: string) => {
       console.log("Received message:", message);
     },
@@ -16,18 +16,18 @@ const Dashboard = () => {
     webSocketFunction(); // Connect on mount
   }, [webSocketFunction]);
 
-  const sendMessage = () => {
-    if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
-      const message = {
-        action: "sendMessage",
-        message: "Hello from React!",
-      };
-      webSocket.current.send(JSON.stringify(message));
-      console.log("Message sent");
-    } else {
-      console.warn("WebSocket is not open");
-    }
-  };
+  // const sendMessage = () => {
+  //   if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
+  //     const message = {
+  //       action: "sendMessage",
+  //       message: "Hello from React!",
+  //     };
+  //     webSocket.current.send(JSON.stringify(message));
+  //     console.log("Message sent");
+  //   } else {
+  //     console.warn("WebSocket is not open");
+  //   }
+  // };
 
   return (
     <div>
@@ -55,11 +55,11 @@ const Dashboard = () => {
                   <div key={index} className="flex justify-between">
                     <div>
                       <span>UserName:</span>
-                      <span>{data?.user_name as string}</span>
+                      <span>{data?.user_name}</span>
                     </div>
                     <div>
                       <span>Score:</span>
-                      <span>{data?.score as string}</span>
+                      <span>{data?.score}</span>
                     </div>
                   </div>
                 );

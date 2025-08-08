@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getLeaderboard, getTopScore } from "../ds/leaderboard";
 
 const useLeaderboard = () => {
@@ -10,7 +10,7 @@ const useLeaderboard = () => {
   }>();
   const [topScorer, setTopScorer] = useState<{
     code: string;
-    data: { user_name: string; score: string }[];
+    data: { user_name: string; score: string };
     message: string;
     success: string;
   }>();
