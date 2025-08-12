@@ -34,9 +34,10 @@ const SignUp = () => {
         },
       };
       const res = await signupUser(payload);
-      if (res?.data?.code === "00") {
+      const { data: signupRes } = res.data;
+      if (res?.data?.code === "00" && !signupRes.UserConfirmed) {
         // dispatch(setUserData(user));
-        navigate("/dashboard");
+        navigate("/confirm-signup");
       }
       if (res?.data?.code === "01" && res?.data?.message) {
         toast.error(res?.data?.message || "something went wrong");
