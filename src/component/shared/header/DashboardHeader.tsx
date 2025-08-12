@@ -1,8 +1,13 @@
 import { FaBell, FaSearch } from "react-icons/fa";
 import Logo from "../../../assets/react.svg";
+import { useNavigate } from "react-router-dom";
 
 const DashboardHeader = () => {
-  const onLogout = () => {};
+  const navigate = useNavigate();
+  const onLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
   return (
     <header className="flex items-center justify-between bg-white shadow-sm px-6 py-3">
       {/* Left: Logo / Title */}
@@ -37,14 +42,14 @@ const DashboardHeader = () => {
           </button>
 
           {/* Dropdown */}
-          <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg hidden group-hover:block">
-            <button
-              onClick={onLogout}
-              className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-            >
-              Logout
-            </button>
-          </div>
+        </div>
+        <div className="mt-2 w-40 bg-white border border-gray-200 rounded-lg">
+          <button
+            onClick={onLogout}
+            className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </header>

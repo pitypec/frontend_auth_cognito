@@ -1,4 +1,3 @@
-import React from "react";
 import OTPInput from "../../component/shared/otp";
 
 const ConfirmSignup = () => {
