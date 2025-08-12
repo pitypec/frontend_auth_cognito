@@ -9,6 +9,7 @@ export const submitScore = async (data: Record<string, unknown>) => {
   }
 };
 export const registerConnection = async (data: Record<string, unknown>) => {
+  console.log({ data });
   try {
     const res = await axiosInstance.post(
       "/leaderboards/register-connection",
