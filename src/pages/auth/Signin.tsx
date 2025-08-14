@@ -21,19 +21,16 @@ const SignIn = () => {
     password: "",
   };
   const signIn = async (data: Record<string, unknown>) => {
-    console.log({ data }, "submit");
     try {
       setLoading(true);
       const res = await loginUser(data);
-      console.log({ res });
       if (res?.data) {
         localStorage.setItem("accessToken", res?.data?.AccessToken);
         const { user } = res.data;
         console.log({ user });
-        // dispatch(setUserData(user));
         navigate("/dashboard");
       }
-      if (res?.data?.code === "01" && res?.data.message) {
+      if (res?.code === "01" && res?.message) {
         toast.error(res?.data?.message || "something went wrong");
       }
     } catch (error: unknown) {
@@ -76,7 +73,7 @@ const SignIn = () => {
                   <Form>
                     <div className="mb-3 w-full">
                       <InputText
-                        placeholder={"Enter your username"}
+                        placeholder={"Enter your email"}
                         label={"Email"}
                         handleChange={(
                           e: React.ChangeEvent<HTMLInputElement>
@@ -108,7 +105,6 @@ const SignIn = () => {
                         name={"password"}
                         unit={""}
                         type={`${viewPassword ? "text" : "password"}`}
-                        //   inputClassName={"w-full h-[44px]"}
                         error={errors?.password}
                         fieldRequired={false}
                         readOnly={false}

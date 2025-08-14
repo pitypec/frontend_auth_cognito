@@ -9,13 +9,9 @@ export const signUpSchema = yup.object({
     .string()
     .email("Invalid email format")
     .required("Email is required"),
-  fullName: yup.string().required("Name is required"),
-  phoneNumber: yup.string().required("Name is required").max(11),
+  name: yup.string().required("Name is required"),
+  username: yup.string().required("Username is required"),
   password: yup
-    .string()
-    .required("Please enter your password")
-    .min(8, "Too Short!"),
-  confirmPassword: yup
     .string()
     .required("Please enter your password")
     .min(8, "Too Short!"),

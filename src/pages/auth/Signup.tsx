@@ -20,29 +20,31 @@ const SignUp = () => {
     username: "",
     password: "",
     name: "",
+    email: "",
   };
   const signUp = async (data: Record<string, unknown>) => {
     try {
       setLoading(true);
       const payload = {
-        email: data?.username,
+        username: data?.username,
         password: data?.password,
         attributes: {
           name: data?.name,
           preferred_username: data?.username,
-          email: data?.username,
+          email: data?.email,
         },
       };
+      localStorage.setItem("username", data?.username as string);
       const res = await signupUser(payload);
-      const { data: signupRes } = res.data;
-      if (res?.data?.code === "00" && !signupRes.UserConfirmed) {
-        // dispatch(setUserData(user));
+      const { data: signupRes } = res;
+      if (res?.code === "00" && !signupRes.UserConfirmed) {
         navigate("/confirm-signup");
       }
-      if (res?.data?.code === "01" && res?.data?.message) {
+      if (res?.code === "01" && res?.message) {
         toast.error(res?.data?.message || "something went wrong");
       }
     } catch (error: unknown) {
+      console.log({ error });
       const axiosError = error as CustomError;
       if (axiosError) {
         toast.error(
@@ -64,7 +66,7 @@ const SignUp = () => {
             </div>
             <div className="pt-[20px]">
               <h1 className="font-semibold text-[20px] text-[#095C37]">
-                Welcome To Nebula Logix
+                Welcome To Client side
               </h1>
               <p className="text-[14px] text-center">
                 Sign in with your credentials below.
@@ -82,16 +84,16 @@ const SignUp = () => {
                   <Form>
                     <div className="mb-3 w-full">
                       <InputText
-                        placeholder={"Enter your username"}
+                        placeholder={"Enter your email"}
                         label={"Email"}
                         handleChange={(
                           e: React.ChangeEvent<HTMLInputElement>
                         ) => handleChange(e)}
-                        value={values.username}
-                        name={"username"}
+                        value={values.email}
+                        name={"email"}
                         unit={""}
-                        type={"text"}
-                        error={errors.username}
+                        type={"email"}
+                        error={errors.email}
                         fieldRequired={false}
                         labelStyle="text-start"
                         readOnly={false}
@@ -108,8 +110,29 @@ const SignUp = () => {
                         handleChange={(
                           e: React.ChangeEvent<HTMLInputElement>
                         ) => handleChange(e)}
-                        value={values.username}
+                        value={values.name}
                         name={"name"}
+                        unit={""}
+                        type={"text"}
+                        error={errors.name}
+                        fieldRequired={false}
+                        labelStyle="text-start"
+                        readOnly={false}
+                        disabled={false}
+                        textStyle={""}
+                        viewPassword={false}
+                        inputClassName={""}
+                      />
+                    </div>
+                    <div className="mb-3 w-full">
+                      <InputText
+                        placeholder={"Enter your username"}
+                        label={"Username"}
+                        handleChange={(
+                          e: React.ChangeEvent<HTMLInputElement>
+                        ) => handleChange(e)}
+                        value={values.username}
+                        name={"username"}
                         unit={""}
                         type={"text"}
                         error={errors.username}

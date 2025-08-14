@@ -8,21 +8,26 @@ import type { CustomError } from "../../types/error";
 import toast from "react-hot-toast";
 
 const Dashboard = () => {
+  const [score, setScore] = useState<number>();
+
   const {
     topScorer,
     leaderboard,
     submitUserScore,
+    getLeaderBoardData,
     registerWebsocketConnection,
   } = useLeaderboard();
   const { webSocketFunction, webSocket } = useWebsocket({
     onMessage: async (message: string) => {
       console.log("Received message:", message);
       const data = JSON.parse(message);
-      const res = await registerWebsocketConnection({
-        connectionId: data?.connectionId,
-      });
-      if (res.code === "00") {
-        toast.success(res?.message);
+      if (data?.connectionId) {
+        await registerWebsocketConnection({
+          connectionId: data?.connectionId,
+          score: score,
+        });
+      } else if (data?.content) {
+        toast.success(message);
       }
     },
   });
@@ -34,6 +39,7 @@ const Dashboard = () => {
 
   const sendMessage = (score: string) => {
     console.log("hit here...");
+    console.log({ score });
     if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
       const message = JSON.stringify({
         action: "sendMessage",
@@ -53,13 +59,11 @@ const Dashboard = () => {
   const submitScore = async (data: typeof initialValues) => {
     setLoading(true);
     try {
-      if (Number(data?.score) > 1000) {
-        console.log({ first: "got here..." });
-        sendMessage(data?.score);
-      }
       const res = await submitUserScore({
         score: Number(data.score),
       });
+      setScore(Number(data?.score));
+      sendMessage(data?.score);
       setLoading(false);
       if (res.code === "00") {
         toast.success(res?.message);
@@ -73,6 +77,7 @@ const Dashboard = () => {
       }
     } finally {
       setLoading(false);
+      getLeaderBoardData();
     }
   };
 
@@ -91,8 +96,8 @@ const Dashboard = () => {
                   <Form>
                     <div className="mb-3 w-full">
                       <InputText
-                        placeholder={"Enter your username"}
-                        label={"Email"}
+                        placeholder={"Enter your score"}
+                        label={"Score"}
                         handleChange={(
                           e: React.ChangeEvent<HTMLInputElement>
                         ) => handleChange(e)}
@@ -100,7 +105,6 @@ const Dashboard = () => {
                         name={"score"}
                         unit={""}
                         type={"text"}
-                        //   inputClassName={"w-full h-[44px]"}
                         error={errors.score}
                         fieldRequired={false}
                         labelStyle="text-start"
@@ -142,7 +146,7 @@ const Dashboard = () => {
         </div>
         <div>
           <h1>LeaderBoard</h1>
-          <div className="min-w-[300px]">
+          <div className="min-w-[500px]">
             {leaderboard ? (
               leaderboard.data.map((data, index: number) => {
                 return (

@@ -1,5 +1,6 @@
 // import React from "react";
 import {
+  confirmSignup,
   login,
   signup,
   // signUp,
@@ -15,17 +16,15 @@ const useAuth = () => {
     const response = await signup(data);
     return response;
   };
+  const confirmUserSignup = async (data: Record<string, unknown>) => {
+    const response = await confirmSignup(data);
+    return response;
+  };
 
-  //   const logoutAction = () => {
-  //     dispatch(logout());
-  //     localStorage.clear();
-  //     navigate("/signin");
-  //   };
   return {
     loginUser,
     signupUser,
-    // createUser,
-    // resetUserPassword,
+    confirmUserSignup,
   };
 };
 

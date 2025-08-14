@@ -17,3 +17,11 @@ export const signup = async (data: Record<string, unknown>) => {
     console.log({ error });
   }
 };
+export const confirmSignup = async (data: Record<string, unknown>) => {
+  try {
+    const res = await axiosInstance.post("/auth/confirm-signup", data);
+    return res.data;
+  } catch (error: unknown) {
+    console.log({ error });
+  }
+};
