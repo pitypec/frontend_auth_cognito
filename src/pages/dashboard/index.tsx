@@ -27,7 +27,7 @@ const Dashboard = () => {
           score: score,
         });
       } else if (data?.content) {
-        toast.success(message);
+        toast.success(data?.content);
       }
     },
   });
